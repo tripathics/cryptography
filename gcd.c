@@ -40,6 +40,11 @@ int get_gcd(int r1, int r2) {
 
 int get_extended_gcd(int r1, int r2) {
     int t1 = 0, t2 = 1, s1 = 1, s2 = 0, t, s;
+    if (r1 < r2) {
+        int temp = r1;
+        r1 = r2;
+        r2 = temp;
+    }
     while (r2 > 0) {
         int q = r1 / r2;
         int r = r1 % r2;
