@@ -7,15 +7,20 @@ int get_additive_inverse(int k)
 
 int get_multiplicative_inverse(int k)
 {
-    for (int i = 1; i < KEYLEN; i++)
+    int r1 = k, r2 = k, t1 = 0, t2 = 1;
+    while (r1 > 0)
     {
-        if (k * i % KEYLEN == 1)
-            return i;
+        int q = r1 / r2; int r = r1 % r2;
+        int t = t1 - q * t2;
+        r1 = r2; r2 = r;
+        t1 = t2; t2 = t;
     }
-    return -1;
+    if (r1 != 1) return 0;
+    if (t1 < 0) t1 += k;
+    return t1;
 }
 
-int additive_cipher(FILE *input_file, FILE *output_file, int key)
+void additive_cipher(FILE *input_file, FILE *output_file, int key)
 {
     char p;
     int key_inverse = get_additive_inverse(key);
@@ -34,17 +39,16 @@ int additive_cipher(FILE *input_file, FILE *output_file, int key)
     fclose(output_file);
     fprintf(stdout, "Ciphertext written to files/output\n");
     fprintf(stdout, "Decrypt with %i\n", key_inverse);
-
-    return 0;
+    return;
 }
 
-int multiplicative_cipher(FILE *input_file, FILE *output_file, int key)
+void multiplicative_cipher(FILE *input_file, FILE *output_file, int key)
 {
     int key_inverse = get_multiplicative_inverse(key);
-    if (key_inverse == -1)
+    if (key_inverse == 0)
     {
         fprintf(stderr, "The provided key inverse doesn't exist under mod %i!\n", KEYLEN);
-        return 3;
+        exit(3);
     }
 
     char p;
@@ -63,16 +67,16 @@ int multiplicative_cipher(FILE *input_file, FILE *output_file, int key)
     fclose(output_file);
     fprintf(stdout, "Ciphertext written to files/output\n");
     fprintf(stdout, "Decrypt with: %i\n", key_inverse);
-    return 0;
+    return;
 }
 
-int affine_cipher(FILE *input_file, FILE *output_file, int prod_key, int sum_key)
+void affine_cipher(FILE *input_file, FILE *output_file, int prod_key, int sum_key)
 {
     int prod_key_inverse = get_multiplicative_inverse(prod_key);
     if (prod_key_inverse == -1)
     {
         fprintf(stderr, "The provided key inverse doesn't exist under mod %i!\n", KEYLEN);
-        return 3;
+        exit(3);
     }
     int sum_key_inverse = get_additive_inverse(sum_key);
     char p;
@@ -97,5 +101,5 @@ int affine_cipher(FILE *input_file, FILE *output_file, int prod_key, int sum_key
     fclose(output_file);
     fprintf(stdout, "Ciphertext written to files/output\n");
     fprintf(stdout, "Decrypt with: (*) key1: %i & (+) key2: %i\n", prod_key_inverse, sum_key_inverse);
-    return 0;
+    return;
 }
