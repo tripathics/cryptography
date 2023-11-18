@@ -2,10 +2,12 @@
 
 int get_additive_inverse(int k)
 {
-    return KEYLEN - k % KEYLEN;
+    int inverse = (KEYLEN - k) % KEYLEN;
+    if (inverse < 0) inverse += KEYLEN;
+    return inverse;
 }
 
-int autokey_cipher(FILE *input_file, FILE *output_file, int key)
+void autokey_cipher(FILE *input_file, FILE *output_file, int key)
 {
     char p, p_prev = key + 'a';
     while ((p = fgetc(input_file)) != EOF)
@@ -21,10 +23,10 @@ int autokey_cipher(FILE *input_file, FILE *output_file, int key)
     fclose(input_file);
     fclose(output_file);
     fprintf(stdout, "Ciphertext written to files/output\n");
-    return 0;
+    return;
 }
 
-int playfair_cipher(FILE *input_file, FILE *output_file, FILE *key_file)
+void playfair_cipher(FILE *input_file, FILE *output_file, FILE *key_file)
 {
     // read from keyfile into 5x5 array in memory
     char key[5][5][2];
@@ -67,7 +69,7 @@ int playfair_cipher(FILE *input_file, FILE *output_file, FILE *key_file)
         if (pairs == NULL)
         {
             fprintf(stderr, "Error allocating pairs\n");
-            return 1;
+            exit(1);
         }
 
         if (pairs[pair_ptr] == NULL)
@@ -143,7 +145,7 @@ int playfair_cipher(FILE *input_file, FILE *output_file, FILE *key_file)
     fclose(output_file);
     fclose(key_file);
     fprintf(stdout, "Ciphertext written to files/output\n");
-    return 0;
+    return;
 }
 
 void search_pair(int *p1x, int *p1y, int *p2x, int *p2y, char *pair, char key[5][5][2])
@@ -167,7 +169,7 @@ void search_pair(int *p1x, int *p1y, int *p2x, int *p2y, char *pair, char key[5]
     }
 }
 
-int vigenere_cipher(FILE *input_file, FILE *output_file, char *key)
+void vigenere_cipher(FILE *input_file, FILE *output_file, char *key)
 {
     size_t keylen = strlen(key), key_pointer = 0;
     char decrypt_key[keylen + 1];
@@ -188,5 +190,5 @@ int vigenere_cipher(FILE *input_file, FILE *output_file, char *key)
     fclose(output_file);
     fprintf(stdout, "Ciphertext written to files/output\n");
     fprintf(stdout, "Decrypt with: %s\n", decrypt_key);
-    return 0;
+    return;
 }

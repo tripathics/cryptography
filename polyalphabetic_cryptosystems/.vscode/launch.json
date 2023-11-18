@@ -11,9 +11,9 @@
             "preLaunchTask": "C/C++: gcc build active file",
             "program": "${workspaceFolder}/polyalphabetic_cipher",
             "args": [
-                "-p",
+                "-v",
                 "files/input",
-                "keyfile",
+                "NIT",
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

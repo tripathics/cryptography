@@ -4,9 +4,10 @@
 #include <string.h>
 
 #define KEYLEN ('z' - 'a' + 1)
+#define USAGE "Usage: ./polyalphabetic [cipher] infile keyfile\ncipher:\n\t-c:\tAutokey\n\t-m:\tPlayfair\n\t-v:\tVigenere\n"
 
-int playfair_cipher(FILE *, FILE *, FILE *);
 void search_pair(int *, int *, int *, int *, char *, char [5][5][2]);
-
-int autokey_cipher(FILE *, FILE *, int);
-int vigenere_cipher(FILE *, FILE *, char *);
+int get_additive_inverse(int);
+void playfair_cipher(FILE *, FILE *, FILE *);
+void autokey_cipher(FILE *, FILE *, int);
+void vigenere_cipher(FILE *, FILE *, char *);
