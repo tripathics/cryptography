@@ -2,7 +2,9 @@
 
 int get_additive_inverse(int k)
 {
-    return KEYLEN - k % KEYLEN;
+    int inverse = (KEYLEN - k) % KEYLEN;
+    if (inverse < 0) inverse += KEYLEN;
+    return inverse;
 }
 
 int get_multiplicative_inverse(int k)
