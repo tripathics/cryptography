@@ -1,7 +1,5 @@
 #include "rsa.h"
 
-#define BUF_SIZE 1024
-
 FILE *input_file;
 FILE *output_file;
 FILE *public_key_file;
