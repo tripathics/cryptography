@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "rsa.h": "c",
+        "stdlib.h": "c",
+        "getopt.h": "c",
+        "stdio.h": "c"
+    }
+}
