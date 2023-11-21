@@ -1,15 +1,12 @@
-#include <stdio.h>
-#include <getopt.h>
-#include <stdlib.h>
 #include "ciphers.h"
+#include <getopt.h>
 
-#define USAGE "Usage: ./monoalphabetic [cipher] infile key[,key2]\ncipher:\n\t-c:\tadditive\n\t-m:\tmultiplicative\n\t-a:\taphine\n"
-#define KEYLEN ('z' - 'a' + 1)
+#define USAGE "Usage: ./monoalphabetic [cipher] infile key[,key2]\ncipher:\n\t-c:\tadditive\n\t-m:\tmultiplicative\n\t-a:\taffine encrypt\n\t-d:\taffine decrypt\n"
 
 int main(int argc, char *argv[])
 {
     // Ensure proper usage
-    char *ciphers = "cma";
+    char *ciphers = "cmad";
     char cipher = getopt(argc, argv, ciphers);
     if (cipher == '?')
     {
@@ -37,19 +34,13 @@ int main(int argc, char *argv[])
     }
 
     FILE *input_file = fopen(argv[optind], "r");
-    if (input_file == NULL)
-    {
-        fprintf(stderr, "Could not open file %s\n", argv[1]);
-        return 2;
-    }
-
     FILE *output_file = fopen("./files/output", "w");
-    if (output_file == NULL)
+    if (input_file == NULL || output_file == NULL)
     {
-        fprintf(stderr, "Could not open file\n");
+        fprintf(stderr, "Could not open input/output file(s)\n");
         return 2;
     }
-
+    
     switch (cipher)
     {
     case 'c':
@@ -59,11 +50,16 @@ int main(int argc, char *argv[])
         multiplicative_cipher(input_file, output_file, key);
         break;
     case 'a':
-        affine_cipher(input_file, output_file, key, key2);
+        affine_cipher_encrypt(input_file, output_file, key, key2);
+        break;
+    case 'd':
+        affine_cipher_decrypt(input_file, output_file, key, key2);
         break;
     default:
         break;
     }
+    fclose(input_file);
+    fclose(output_file);
 
     return 0;
 }

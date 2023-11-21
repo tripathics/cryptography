@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "ciphers.h": "c"
+        "ciphers.h": "c",
+        "getopt.h": "c"
     }
 }
