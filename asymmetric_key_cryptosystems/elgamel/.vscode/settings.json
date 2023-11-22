@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "elgamel.h": "c",
+        "stdio.h": "c"
+    }
+}
