@@ -28,35 +28,19 @@ lli gcd(lli a, lli b)
 }
 
 // find multiplicative inverse of r1 under mod r2
-lli inverse(lli x, lli n)
-{
-    lli r1 = x, r2 = n, t1 = 0, t2 = 1;
-    if (r1 < r2)
-    {
-        lli temp = r1;
-        r1 = r2;
-        r2 = temp;
-    }
-
-    while (r2 > 0)
-    {
-        int q = r1 / r2;
-        int r = r1 % r2;
-        int t = t1 - q * t2;
-        r1 = r2;
-        r2 = r;
-        t1 = t2;
-        t2 = t;
-    }
-
-    if (r1 != 1)
-    {
-        fprintf(stderr, "Inverse doesn't exist\n");
-        exit(1);
-    }
-    if (t1 < 0)
-        t1 += n;
-    return t1;
+int inverse(int n, int modulus) {
+	int a = n, b = modulus;
+	int t1 = 0, s1 = 1, t2 = 1, s2 = 0, q, temp;
+	while(b != 0) {
+		q = a / b;
+		int r = a % b;
+		a = b;
+		b = r;
+		temp = t1; t1 = t2 - q * t1; t2 = temp;
+		temp = s1; s1 = s2 - q * s1; s2 = temp;
+	}
+	if(t2 < 0) t2 += modulus;
+	return t2;
 }
 
 /**
